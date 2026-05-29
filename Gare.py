@@ -136,8 +136,17 @@ class GareRoutiere:
 
 
 #=================================================================================#
-# ================ESPERANCE'S PART START===================
-#=================================================================================#
+# ID GENERATION
+#===================================
+#=====Generate a unique reservation ID for a given date===
+def generate_reservation_id(self, date_str): 
+    existing_ids = [r.reservation_id for r in self.reservations]
+    counter = len(existing_ids) + 1
+    while True:
+        new id = generate_id(date_str, counter)
+        if new_id not in existing_ids:
+            return new_id
+        counter += 1
 
 
 
