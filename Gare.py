@@ -1,11 +1,72 @@
-#-----------------------------------------------------------
-# ligne 101 a 200
-#-----------------------------------------------------------
-while True:
-            new_id = generate_id(date_str, counter)
-            if new_id not in existing_ids:
-                return new_id
-            counter += 1
+# 
+# gare.py - GareRoutiere class: core business logic
+# Handles all operations: loading, booking, viewing, cancelling
+# 
+import os
+from trajet      import Trajet
+from ticket      import TicketStandard
+from reservation import Reservation
+from utils       import (generate_id, validate_date, validate_phone,
+                         validate_not_empty, get_valid_input, get_valid_choice)
+
+# ---- Application constants ----
+RESERVATIONS_FILE = "reservations.txt"
+MAX_SEATS         = 30
+HORAIRES          = ["06:00", "13:00", "20:00"]
+
+# ---- Define all available routes (both directions) ----
+TRAJETS = [
+    Trajet("Ouagadougou",    "Bobo-Dioulasso", 8000),
+    Trajet("Bobo-Dioulasso", "Ouagadougou",    8000),
+    Trajet("Koudougou",      "Bobo-Dioulasso", 6000),
+    Trajet("Bobo-Dioulasso", "Koudougou",      6000),
+    Trajet("Koudougou",      "Ouagadougou",    2000),
+    Trajet("Ouagadougou",    "Koudougou",      2000),
+]
+
+SEPARATOR = "=" * 54
+BACK      = "b"   # Keyword the user types to go back one step
+
+
+class GareRoutiere:
+    """
+    Main class of the application.
+    Manages the list of reservations and all user-facing operations.
+    """
+
+    def __init__(self):
+        # ---- Load existing reservations from file on startup ----
+        self.reservations = self.load_reservations()
+
+    # OPERATIONS
+    
+    # ---- Read reservations.txt and rebuild the reservations list ----
+    def load_reservations(self):
+        reservations = []
+        if not os.path.exists(RESERVATIONS_FILE):
+            return reservations
+
+        with open(RESERVATIONS_FILE, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split("|")
+                if len(parts) != 9:
+                    continue
+
+                res_id, first_name, last_name, phone, dep, arr, price, date, horaire = parts
+                trajet      = Trajet(dep, arr, int(price))
+                ticket      = TicketStandard(trajet, date, horaire)
+                reservation = Reservation(res_id, first_name, last_name, phone, ticket)
+                reservations.append(reservation)
+
+        return reservations
+  # ---- Write all current reservations back to the file ----
+    def save_reservations(self):
+        with open(RESERVATIONS_FILE, "w", encoding="utf-8") as f:
+            for res in self.reservations:
+                f.write(res.to_line())
 # ----------------------------------------------------------
 # ETAPES DE RESERVATION
 # Chaque étape guide l'utilisateur pas à pas.
