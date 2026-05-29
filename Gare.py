@@ -90,11 +90,13 @@ class GareRoutiere:
 # ================KABIR'S PART START===================
 #=================================================================================#
 # ----------------------------------------------------------
-# ETAPES DE RESERVATION
-# Chaque étape guide l'utilisateur pas à pas.
-# Si l'utilisateur tape 'b', l'étape retourne None
-# et le système revient automatiquement à l'étape précédente.
+# BOOKING STEPS
+# Each step guides the user step by step.
+# if the user types'b' the step returns none
+# and the system automatically returns to the previous step.
 # ----------------------------------------------------------
+  
+#-------Display routes and askthe user to pick one----------
     def _step_choose_route(self):
         print(f"\n{SEPARATOR}")
         print("  BOOK A TICKET  —  Step 1/4: Choose a route")
@@ -112,10 +114,17 @@ class GareRoutiere:
         if choice == BACK:
             return None
         return TRAJETS[int(choice) - 1]
-
+#------- Ask the user to enter a travel date----------------
     def _step_choose_date(self):
         print(f"\n{SEPARATOR}")
         print("  BOOK A TICKET  —  Step 2/4: Choose a date")
+        print(SEPARATOR)
+      while True:
+        value = input("  Travel date (DD/MM/YYYY) or 'b' to go back: ").strip()
+        if value.lower() == BACK:
+            return None
+        if validate_date(value):
+            return value
 
 
 #=================================================================================#
