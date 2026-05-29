@@ -22,6 +22,8 @@ def generate_id(date_str, counter):
     month_num  = int(date_str[3:5])            # Extract month number
     month_abbr = MONTH_ABBR[month_num]         # Convert to abbreviation
     return f"{day}{month_abbr}{counter:03d}"   # Zero-padded 3-digit counter
+
+
 # ---- Validate a date entered by the user ----
 # Accepts DD/MM/YYYY format only; rejects past dates
 def validate_date(date_str):
