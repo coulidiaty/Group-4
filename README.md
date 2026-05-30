@@ -27,6 +27,7 @@ Language: Python 3.x
 Libraries: os, re, datetime (all built-in, no installation needed)
 
 ---------------------------Project Structure---------------------------------
+
 Group-4/
 --- main.py # Entry point --- displays the menu and starts the app
 --- gare.py # Core business logic --- booking, viewing, cancelling
@@ -37,6 +38,7 @@ Group-4/
 --- reservations.txt # Auto-generated file where reservations are stored
 
 -----------------------------OOP Structure (POO)-------------------------------
+
 Trajet --- trajet.py
 Represents a bus route between two cities.
 
