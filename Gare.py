@@ -98,11 +98,11 @@ class GareRoutiere:
 
   # ID GENERATION
 #----Generate a unique reservation ID for a given date----
-def generate_reservation_id(self, date_str): 
+  def generate_reservation_id(self, date_str): 
     existing_ids = [r.reservation_id for r in self.reservations]
     counter = len(existing_ids) + 1
     while True:
-        new id = generate_id(date_str, counter)
+        new_id = generate_id(date_str, counter)
         if new_id not in existing_ids:
             return new_id
         counter += 1
@@ -210,6 +210,30 @@ def _step_passenger_info(self):
 
     return first_name.capitalize(), last_name.upper(), phone
 
+ # ---- Confirmation screen: show summary and ask to confirm ----
+    # Returns True (confirmed), False (cancelled), or None (go back)
+  def _step_confirm(self, trajet, date, horaire, first_name, last_name, phone):
+        print(f"\n{SEPARATOR}")
+        print("  BOOKING SUMMARY — Please review before confirming")
+        print(SEPARATOR)
+        print(f"  {'Route':<12}: {trajet.departure} -> {trajet.arrival}")
+        print(f"  {'Date':<12}: {date}")
+        print(f"  {'Time':<12}: {horaire}")
+        print(f"  {'Price':<12}: {trajet.price} FCFA")
+        print(f"  {'Passenger':<12}: {first_name} {last_name}")
+        print(f"  {'Phone':<12}: {phone}")
+        print(f"  {'Ticket type':<12}: Standard")
+        print(SEPARATOR)
+
+        choice = get_valid_choice(
+            "  Confirm booking? (y / n / b to edit): ",
+            ["y", "n", BACK]
+        )
+        if choice == BACK:
+            return None
+        if choice == "n":
+            return False
+        return True
 
 # ----------------------------------------------------------
 # MENU OPTION 1 - BOOK A TICKET (step-based with back navigation)
