@@ -163,7 +163,7 @@ class GareRoutiere:
 #=================================================================================#
 
 # ID GENERATION
-#=====Generate a unique reservation ID for a given date===
+#----Generate a unique reservation ID for a given date----
 def generate_reservation_id(self, date_str): 
     existing_ids = [r.reservation_id for r in self.reservations]
     counter = len(existing_ids) + 1
@@ -172,6 +172,55 @@ def generate_reservation_id(self, date_str):
         if new_id not in existing_ids:
             return new_id
         counter += 1
+
+# ----------------------------------------------------------
+    # MENU OPTION 1 - BOOK A TICKET (step-based with back navigation)
+    # ----------------------------------------------------------
+
+    def book_ticket(self):
+        step       = 1
+        trajet     = None
+        date       = None
+        horaire    = None
+        first_name = None
+        last_name  = None
+        phone      = None
+
+        while True:
+
+            # ---- Step 1: Choose route ----
+            if step == 1:
+                trajet = self._step_choose_route()
+                if trajet is None:
+                    return   # User cancelled → back to main menu
+                step = 2
+
+            # ---- Step 2: Choose date ----
+            elif step == 2:
+                date = self._step_choose_date()
+                if date is None:
+                    step = 1   # Go back to route selection
+                else:
+                    step = 3
+
+            # ---- Step 3: Choose time ----
+            elif step == 3:
+                horaire = self._step_choose_time(trajet, date)
+                if horaire is None:
+                    step = 2   # Go back to date selection
+                else:
+                    step = 4
+
+            # ---- Step 4: Passenger info ----
+            elif step == 4:
+                result = self._step_passenger_info()
+                if result is None:
+                    step = 3   # Go back to time selection
+                else:
+                    first_name, last_name, phone = result
+                   
+
+           
 
 
 
