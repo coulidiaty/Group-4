@@ -74,6 +74,31 @@ class GareRoutiere:
             for res in self.reservations:
                 f.write(res.to_line())
 
+   # SEAT MANAGEMENT
+    # ---- Count booked seats for a specific departure ----
+    def count_seats(self, departure, arrival, date, horaire):
+        count = 0
+        for res in self.reservations:
+            t = res.ticket
+            if (t.trajet.departure == departure and
+                    t.trajet.arrival == arrival and
+                    t.date    == date and
+                    t.horaire == horaire):
+                count += 1
+        return count
+
+    # ---- Return True if at least one seat is still available ----
+    def is_available(self, departure, arrival, date, horaire):
+        return self.count_seats(departure, arrival, date, horaire) < MAX_SEATS
+
+    # ---- Check if ALL time slots are full for a given route and date ----
+    def all_slots_full(self, departure, arrival, date):
+        return all(
+            not self.is_available(departure, arrival, date, h)
+            for h in HORAIRES
+        )
+
+
 #=================================================================================#
 # ================SADIA'S PART END===================
 #=================================================================================#
@@ -133,11 +158,11 @@ class GareRoutiere:
 
 
 
-
-
 #=================================================================================#
+# ================ESPERANCE'S PART START===================
+#=================================================================================#
+
 # ID GENERATION
-#===================================
 #=====Generate a unique reservation ID for a given date===
 def generate_reservation_id(self, date_str): 
     existing_ids = [r.reservation_id for r in self.reservations]
