@@ -232,6 +232,72 @@ def book_ticket(self):
 #=================================================================================#
 # ================DIALLO'S PART START===================
 #=================================================================================#
+ # ----------------------------------------------------------
+    # MENU OPTION 2 - VIEW MY RESERVATIONS
+    # ----------------------------------------------------------
+
+    # ---- Search and display all reservations linked to a phone number ----
+    def view_reservations(self):
+        print(f"\n{SEPARATOR}")
+        print("  MY RESERVATIONS")
+        print(SEPARATOR)
+
+        phone = get_valid_input("  Enter your phone number: ", validate_phone)
+
+        # ---- Filter reservations matching the given phone ----
+        results = [r for r in self.reservations if r.phone == phone]
+
+        if not results:
+            print("  No reservation found for this phone number.")
+            return
+
+        print(f"\n  {len(results)} reservation(s) found:\n")
+        for res in results:
+            print(res)
+            print()
+        print(SEPARATOR)
+
+    # ----------------------------------------------------------
+    # MENU OPTION 3 - CANCEL A RESERVATION
+    # ----------------------------------------------------------
+
+    # ---- Find a reservation by ID and remove it after confirmation ----
+    def cancel_reservation(self):
+        print(f"\n{SEPARATOR}")
+        print("  CANCEL A RESERVATION")
+        print(SEPARATOR)
+
+        res_id = get_valid_input(
+            "  Enter reservation ID: ", validate_not_empty
+        ).upper()
+
+        # ---- Search for the reservation ----
+        target = None
+        for res in self.reservations:
+            if res.reservation_id == res_id:
+                target = res
+                break
+
+        if not target:
+            print(f"  [!] No reservation found with ID: {res_id}")
+            return
+
+        # ---- Show reservation details before confirmation ----
+        print("\n  Reservation found:")
+        print(target)
+        print()
+
+        confirm = get_valid_choice(
+            "  Are you sure you want to cancel? (y/n): ", ["y", "n"]
+        )
+        if confirm == "n":
+            print("  Cancellation aborted. Your reservation is still active.")
+            return
+
+        # ---- Remove and save ----
+        self.reservations.remove(target)
+        self.save_reservations()
+        print(f"\n  [OK] Reservation {res_id} has been successfully cancelled.")
 
 
 
