@@ -281,11 +281,30 @@ def book_ticket(self):
             else:
                 first_name, last_name, phone = result
                 step = 5
-                   
+          # ---- Step 5: Confirm ----
+          elif step == 5:
+              result = self._step_confirm(
+                  trajet, date, horaire, first_name, last_name, phone
+                )
+                if result is None:
+                    step = 4      # Go back to passenger info
+                elif result is False:
+                    print("  Booking cancelled. No reservation was made.")
+                    return
+                else:
+                    # ---- Create and save the reservation ----
+                    res_id      = self.generate_reservation_id(date)
+                    ticket      = TicketStandard(trajet, date, horaire)
+                    reservation = Reservation(
+                        res_id, first_name, last_name, phone, ticket
+                    )
+                    self.reservations.append(reservation)
+                    self.save_reservations()
 
-           
-
-
+                    print(f"\n  [OK] Booking confirmed!")
+                    print(f"  Your reservation ID : {res_id}")
+                    print(f"  Keep this ID to cancel your reservation if needed.")
+                    return
 
 #=================================================================================#
 # ================ESPERANCE'S PART END===================
