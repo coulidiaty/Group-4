@@ -1,56 +1,104 @@
-Group-4 - Ticket Nana Bus Reservation System
+--------------------Ticket Nana - Bus Reservation System---------------------
 
-Description
-This is a bus reservation system made in python for school project.
-the user can book tickets, see their reservations and cancel them.
-the available cities are Ouagadougou Koudougou and Bobo-Dioulasso
-How to run the project
-you need python 3 installed on you computer
-clone the project :
-git clone https://github.com/coulidiaty/Group-4.git
-then run :
-python main.py by opening the file with python
+Ticket Nana is a command-line application built in Python that allows users to book, view, and cancel bus tickets between three cities in Burkina Faso which are Ouagadougou, Koudougou, and Bobo-Dioulasso. All reservations are saved in a local text file so data is not lost when the program closes.
 
-Fonctionnalites
-book a ticket
-see reservations
-cancel a reservation
-the user can go back by typing b
+---
 
-Technologies used
-python 3
-os, re, datetime (which are already included in python)
+-------------How to Run the Project---------------------------------
+Requirements:
+Python 3.x (no external libraries needed)
 
-project structure
-main.py : start the app and show the menu
-gare.py : the main logic of the app (booking viewing cancelling)
-reservation.py : reservation class
-ticket.py : ticket class and ticketstandard class
-trajet.py : trajet class for the routes
-utils.py : helper functions for validation and id generation
-reservations.txt : where reservations are saved
+Steps:
+Clone the repository: on your terminal (powershell) type git clone https://github.com/coulidiaty/Group-4.git
 
-POO structure
-Trajet
-represents a route
-attributes : departure arrival price
-Ticket
-base class for tickets
-attributes : trajet date horaire
-methods : get_info
-TicketStandard
-inherits from ticket
-adds type = standard
-Reservation
-groups all data for one booking
-attributes : reservation_id first_name last_name phone ticket
-methods : to_line, str
-GareRoutiere
-main class
-handles everything
-methods : load_reservations, save_reservations, book_ticket, view_reservations, cancel_reservation and more
+Go into the project folder: cd Group-4
+Run the application: python main.py
 
-Acknowledgments
-python docs
-github docs
-our teacher
+--------------------------------Features-------------------------------------
+
+Book a bus ticket step by step (route, date, time, passenger info)
+View all reservations linked to a phone number
+Cancel a reservation using its unique ID
+Navigate back at any step by typing b
+Real-time seat availability per time slot
+Reservations saved automatically to a text file
+
+----------------------------Technologies Used--------------------------------
+
+Language: Python 3.x
+Libraries: os, re, datetime (all built-in, no installation needed)
+
+---------------------------Project Structure---------------------------------
+Group-4/
+--- main.py # Entry point --- displays the menu and starts the app
+--- gare.py # Core business logic --- booking, viewing, cancelling
+--- reservation.py # Reservation class --- groups passenger and ticket data
+--- ticket.py # Ticket classes --- Ticket (parent) and TicketStandard (child)
+--- trajet.py # Trajet class --- represents a route between two cities
+--- utils.py # Helper functions --- input validation and ID generation
+--- reservations.txt # Auto-generated file where reservations are stored
+
+-----------------------------OOP Structure (POO)-------------------------------
+Trajet --- trajet.py
+Represents a bus route between two cities.
+
+Attributes: departure, arrival, price
+Methods: **str**
+
+Ticket --- ticket.py
+Base class for all ticket types.
+
+Attributes: trajet, date, horaire
+Methods: get_info
+
+TicketStandard --- ticket.py
+Inherits from Ticket. Represents a standard economy ticket.
+
+Additional attribute: type = "Standard"
+Methods: get_info (overrides parent)
+
+Reservation --- reservation.py
+Groups all data for a single booking.
+
+Attributes: reservation_id, first_name, last_name, phone, ticket
+Methods: to_line (serialize to text file), **str**
+
+GareRoutiere --- gare.py
+Main class of the application. Handles all user-facing operations.
+
+Attributes: reservations
+Methods:
+
+load_reservations --- reads and rebuilds reservations from file
+save_reservations --- writes all reservations back to file
+count_seats --- counts booked seats for a given departure
+is_available --- checks if seats are available
+all_slots_full --- checks if all time slots are full
+generate_reservation_id --- generates a unique ID per reservation
+\_step_choose_route --- step 1 of booking
+\_step_choose_date --- step 2 of booking
+\_step_choose_time --- step 3 of booking
+\_step_passenger_info --- step 4 of booking
+\_step_confirm --- confirmation screen
+book_ticket --- runs the full booking flow
+view_reservations --- displays reservations by phone number
+cancel_reservation --- cancels a reservation by ID
+
+------------------------------- Acknowledgements-----------------------------
+
+.Python official documentation: https://docs.python.org
+. Git & GitHub documentation: https://docs.github.com
+.datetime module reference: https://docs.python.org/3/library/datetime.html
+.re module reference: https://docs.python.org/3/library/re.html
+.youtube videos: https://youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc&si=fP-0hYF0M5EX58ZC , https://youtube.com/playlist?list=PL0lo9MOBetEFcp4SCWinBdpml9B2U25-f&si=0nX-z54LzLCc6nwM ,
+.Debbuging and better syntax : Claude IA
+.Our lecturer: Miss Kweyakie Afi Blebo
+
+-----------------------------------Team Members--------------------------------
+
+- Dera Alimatou Sadia --- https://github.com/DeraAlimatouSadia
+- Zaïd Diataga Coulidiaty --- https://github.com/coulidiaty
+- Diallo Maïmounata --- https://github.com/diallomaimounata51-byte
+- Diallo Aïssata --- https://github.com/princess-19
+- KIEMA Espérance Wendkuni 1ere jumelle ---https://github.com/kiemaesperance
+- Kabir
