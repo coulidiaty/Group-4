@@ -122,6 +122,7 @@ class GareRoutiere:
 # ----------------------------------------------------------
   
 #-------Display routes and askthe user to pick one----------
+  
     def _step_choose_route(self):
         print(f"\n{SEPARATOR}")
         print("  BOOK A TICKET  —  Step 1/4: Choose a route")
@@ -140,6 +141,7 @@ class GareRoutiere:
             return None
         return TRAJETS[int(choice) - 1]
 #------- Ask the user to enter a travel date----------------
+  
     def _step_choose_date(self):
         print(f"\n{SEPARATOR}")
         print("  BOOK A TICKET  —  Step 2/4: Choose a date")
@@ -150,6 +152,73 @@ class GareRoutiere:
             return None
         if validate_date(value):
             return value
+#----We show the user the available time slots---------------
+#----If there are no seats left, we warn them and cancel-----
+#----Otherwise, they pick a time and we return it------------
+
+def _step_choose_time(self, trajet, date):
+    print(f"\n{SEPARATOR}")
+    print("  BOOK A TICKET  —  Step 3/4: Choose a departure time")
+    print(SEPARATOR)
+#---Warn immediately if the entire route+date is fully booked ----
+    if self.all_slots_full(trajet.departure, trajet.arrival, date):
+        print(f"  [!] All time slots for {trajet.departure} -> {trajet.arrival}")
+        print(f"      on {date} are fully booked. Please choose another date.")
+        return None
+#----Display each time slot with remaining seats-------------
+    for i, h in enumerate(HORAIRES, 1):
+        seats_left = MAX_SEATS - self.count_seats(
+            trajet.departure, trajet.arrival, date, h
+        )
+        if seats_left > 0:
+            status = f"{seats_left} seat(s) available"
+        else:
+            status = "FULL"
+        print(f"  {i}. {h}  —  {status}")
+
+    print(SEPARATOR)
+    choice = get_valid_choice(
+        "  Select a time (1-3) or 'b' to go back: ",
+        ["1", "2", "3", BACK]
+    )
+    if choice == BACK:
+        return None
+
+    horaire = HORAIRES[int(choice) - 1]   
+#-----Double-check the chosen slot is not full-------------
+    if not self.is_available(trajet.departure, trajet.arrival, date, horaire):
+        print("  [!] This slot is fully booked. Please choose another time.")
+        return self._step_choose_time(trajet, date)
+
+    return horaire
+
+#-------Get passenger details (name + phone)---------------
+def _step_passenger_info(self):
+    print(f"\n{SEPARATOR}")
+    print("  BOOK A TICKET  —  Step 4/4: Passenger information")
+    print(f"  (type 'b' in the first field to go back)")
+    print(SEPARATOR)
+# ---- First name: allow 'b' to go back ----
+    first_name = input("  First name  : ").strip()
+    if first_name.lower() == BACK:
+        return None
+# ---- Validate first name is not empty ----
+    while not validate_not_empty(first_name):
+        first_name = input("  First name  : ").strip()
+#From here, no going back — we ask for the last name and phone number
+  while True:
+        last_name = input("  Last name   : ").strip()
+        if validate_not_empty(last_name):
+            break
+
+    while True:
+        phone = input("  Phone number: ").strip()
+        if validate_phone(phone):
+            break
+
+    return first_name.capitalize(), last_name.upper(), phone
+
+      
 
 
 #=================================================================================#
