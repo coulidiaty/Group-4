@@ -1,6 +1,4 @@
-#=================================================================================#
-# ================SADIA'S PART START===================
-#=================================================================================#
+
 # gare.py - GareRoutiere class: core business logic
 # Handles all operations: loading, booking, viewing, cancelling
 # 
@@ -98,22 +96,16 @@ class GareRoutiere:
             for h in HORAIRES
         )
 
-
-#=================================================================================#
-# ================SADIA'S PART END===================
-#=================================================================================#
-
-
-
-
-
-
-
-
-
-#=================================================================================#
-# ================KABIR'S PART START===================
-#=================================================================================#
+  # ID GENERATION
+#----Generate a unique reservation ID for a given date----
+def generate_reservation_id(self, date_str): 
+    existing_ids = [r.reservation_id for r in self.reservations]
+    counter = len(existing_ids) + 1
+    while True:
+        new id = generate_id(date_str, counter)
+        if new_id not in existing_ids:
+            return new_id
+        counter += 1
 # ----------------------------------------------------------
 # BOOKING STEPS
 # Each step guides the user step by step.
@@ -218,29 +210,7 @@ def _step_passenger_info(self):
 
     return first_name.capitalize(), last_name.upper(), phone
 
-      
 
-
-#=================================================================================#
-# ================KABIR'S PART END===================
-#=================================================================================#
-
-
-
-#=================================================================================#
-# ================ESPERANCE'S PART START===================
-#=================================================================================#
-
-# ID GENERATION
-#----Generate a unique reservation ID for a given date----
-def generate_reservation_id(self, date_str): 
-    existing_ids = [r.reservation_id for r in self.reservations]
-    counter = len(existing_ids) + 1
-    while True:
-        new id = generate_id(date_str, counter)
-        if new_id not in existing_ids:
-            return new_id
-        counter += 1
 # ----------------------------------------------------------
 # MENU OPTION 1 - BOOK A TICKET (step-based with back navigation)
 # ----------------------------------------------------------
@@ -306,20 +276,7 @@ def book_ticket(self):
                     print(f"  Keep this ID to cancel your reservation if needed.")
                     return
 
-#=================================================================================#
-# ================ESPERANCE'S PART END===================
-#=================================================================================#
 
-
-
-
-
-
-
-
-#=================================================================================#
-# ================DIALLO'S PART START===================
-#=================================================================================#
  # ----------------------------------------------------------
     # MENU OPTION 2 - VIEW MY RESERVATIONS
     # ----------------------------------------------------------
@@ -386,9 +343,3 @@ def book_ticket(self):
         self.reservations.remove(target)
         self.save_reservations()
         print(f"\n  [OK] Reservation {res_id} has been successfully cancelled.")
-
-
-
-#=================================================================================#
-# ================DIALLO'S PART END===================
-#=================================================================================#
