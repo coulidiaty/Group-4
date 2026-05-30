@@ -2,11 +2,9 @@
 
 Ticket Nana is a command-line application built in Python that allows users to book, view, and cancel bus tickets between three cities in Burkina Faso which are Ouagadougou, Koudougou, and Bobo-Dioulasso. All reservations are saved in a local text file so data is not lost when the program closes.
 
----
+-------------How to Run the Project------------------------------------------
 
--------------How to Run the Project---------------------------------
-Requirements:
-Python 3.x (no external libraries needed)
+Requirements: Python 3.x (no external libraries needed)
 
 Steps:
 Clone the repository: on your terminal (powershell) type git clone https://github.com/coulidiaty/Group-4.git
@@ -97,8 +95,8 @@ cancel_reservation --- cancels a reservation by ID
 -----------------------------------Team Members--------------------------------
 
 - Dera Alimatou Sadia --- https://github.com/DeraAlimatouSadia
-- Zaïd Diataga Coulidiaty --- https://github.com/coulidiaty
 - Diallo Maïmounata --- https://github.com/diallomaimounata51-byte
 - Diallo Aïssata --- https://github.com/princess-19
+- Guissou Abdoul Kabir --- https://github.com/kabir-0009
 - KIEMA Espérance Wendkuni 1ere jumelle ---https://github.com/kiemaesperance
-- Kabir
+- Zaïd Diataga Coulidiaty --- https://github.com/coulidiaty
