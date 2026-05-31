@@ -9,8 +9,9 @@ class Reservation:
     """
 
     def __init__(self, reservation_id, first_name, last_name, phone, ticket):
+        """Initialize a reservation with a unique ID, passenger info, and a ticket."""
         # ---- Reservation identity ----
-        self.reservation_id = reservation_id   # this ID  is unique for each ticket(e.g. "25MA001")
+        self.reservation_id = reservation_id   # Unique ID (e.g. "25MA001")
 
         # ---- Passenger information ----
         self.first_name = first_name
@@ -20,9 +21,8 @@ class Reservation:
         # ---- Ticket attached to this reservation ----
         self.ticket = ticket   # TicketStandard object
 
-    # ---- Serialize reservation to a single line for file storage ----
-    #  Ticket Format: id|first-name|last-name|phone|departure|arrival|price|date|time
     def to_line(self):
+        """Serialize the reservation to a single pipe-separated line for file storage."""
         t = self.ticket
         return (
             f"{self.reservation_id}|"
@@ -36,8 +36,8 @@ class Reservation:
             f"{t.horaire}\n"
         )
 
-    # ---- For reservation ----
     def __str__(self):
+        """Return a human-readable summary of the reservation."""
         t = self.ticket
         return (
             f"  ID: {self.reservation_id} | "
